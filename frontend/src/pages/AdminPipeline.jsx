@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { api } from '../api';
-import { PipelineIcon } from '../illustrations';
+import { PipelineIcon, StageIcon } from '../illustrations';
 import { useToast } from '../Toast';
 
 const STAGES = ['applied', 'screening', 'interview', 'offer', 'hired', 'rejected'];
@@ -46,7 +46,9 @@ export default function AdminPipeline() {
         <div className="pipeline">
           {STAGES.map((stage) => (
             <div className="pipeline-col" key={stage}>
-              <h3>{stage}</h3>
+              <h3 style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <StageIcon stage={stage} size={16} /> {stage}
+              </h3>
               {candidates.filter((c) => c.stage === stage).map((c) => (
                 <div className="candidate-card" key={c.id}>
                   <div className="name">{c.name}</div>

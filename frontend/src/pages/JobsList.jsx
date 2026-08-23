@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
-import { HeroPeople, EmptyDesk } from '../illustrations';
+import { HeroOffice, EmptyDesk } from '../illustrations';
 
 export default function JobsList() {
   const [jobs, setJobs] = useState(null);
@@ -15,7 +15,7 @@ export default function JobsList() {
 
   return (
     <div className="container">
-      <HeroPeople />
+      <HeroOffice />
       <h1 style={{ marginTop: 18 }}>Open Roles</h1>
       <p className="subtitle">Current openings — apply directly below.</p>
 
