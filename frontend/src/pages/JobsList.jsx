@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
+import { HeroPeople, EmptyDesk } from '../illustrations';
 
 export default function JobsList() {
   const [jobs, setJobs] = useState(null);
@@ -14,13 +15,17 @@ export default function JobsList() {
 
   return (
     <div className="container">
-      <h1>Open Roles</h1>
+      <HeroPeople />
+      <h1 style={{ marginTop: 18 }}>Open Roles</h1>
       <p className="subtitle">Current openings — apply directly below.</p>
 
       {error && <p className="error-msg">{error}</p>}
       {jobs === null && !error && <p className="empty">Loading…</p>}
       {jobs !== null && openJobs.length === 0 && (
-        <p className="empty">No open roles right now. Check back soon.</p>
+        <div style={{ textAlign: 'center', padding: '20px 0' }}>
+          <EmptyDesk />
+          <p className="empty">No open roles right now. Check back soon.</p>
+        </div>
       )}
 
       {openJobs.map((job) => (

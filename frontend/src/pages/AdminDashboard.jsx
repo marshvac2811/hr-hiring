@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
+import { HeroPeople } from '../illustrations';
+import { useToast } from '../Toast';
 
 export default function AdminDashboard() {
+  const showToast = useToast();
   const [jobs, setJobs] = useState(null);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
@@ -24,6 +27,7 @@ export default function AdminDashboard() {
       setForm({ title: '', department: '', description: '' });
       setShowForm(false);
       load();
+      showToast('Job posted!');
     } catch (e) {
       setError(e.message);
     } finally {
@@ -32,13 +36,16 @@ export default function AdminDashboard() {
   }
 
   async function toggleStatus(job) {
-    await api.updateJob(job.id, { status: job.status === 'open' ? 'closed' : 'open' });
+    const next = job.status === 'open' ? 'closed' : 'open';
+    await api.updateJob(job.id, { status: next });
     load();
+    showToast(next === 'closed' ? 'Job closed' : 'Job reopened');
   }
 
   return (
     <div className="container">
-      <h1>Admin — Jobs</h1>
+      <HeroPeople />
+      <h1 style={{ marginTop: 18 }}>Admin — Jobs</h1>
       <p className="subtitle">Post roles and manage the pipeline.</p>
 
       {error && <p className="error-msg">{error}</p>}

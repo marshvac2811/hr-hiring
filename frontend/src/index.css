@@ -130,3 +130,27 @@ h2 { font-size: 18px; }
 
 .empty { color: var(--muted); font-size: 14px; padding: 20px 0; }
 .error-msg { color: #b91c1c; font-size: 14px; margin-bottom: 10px; }
+
+.toast-stack {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
+}
+.toast {
+  background: #111827;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  animation: toast-in 0.2s ease-out;
+}
+.toast-success { background: #065f46; }
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

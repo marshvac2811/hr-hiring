@@ -3,9 +3,11 @@ import JobsList from './pages/JobsList';
 import JobDetail from './pages/JobDetail';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminPipeline from './pages/AdminPipeline';
+import { ToastProvider } from './Toast';
 
 export default function App() {
   return (
+    <ToastProvider>
     <BrowserRouter>
       <div className="topbar">
         <div className="topbar-inner">
@@ -24,5 +26,6 @@ export default function App() {
         <Route path="/admin/jobs/:id" element={<AdminPipeline />} />
       </Routes>
     </BrowserRouter>
+    </ToastProvider>
   );
 }

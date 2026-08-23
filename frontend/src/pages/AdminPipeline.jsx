@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { api } from '../api';
+import { PipelineIcon } from '../illustrations';
+import { useToast } from '../Toast';
 
 const STAGES = ['applied', 'screening', 'interview', 'offer', 'hired', 'rejected'];
 
 export default function AdminPipeline() {
   const { id } = useParams();
+  const showToast = useToast();
   const [job, setJob] = useState(null);
   const [candidates, setCandidates] = useState(null);
   const [error, setError] = useState('');
@@ -17,9 +20,10 @@ export default function AdminPipeline() {
 
   useEffect(load, [id]);
 
-  async function moveStage(candidateId, stage) {
+  async function moveStage(candidateId, stage, name) {
     await api.updateCandidate(candidateId, { stage });
     load();
+    showToast(`${name} moved to ${stage}`);
   }
 
   return (
@@ -27,6 +31,7 @@ export default function AdminPipeline() {
       <Link to="/admin">&larr; All jobs</Link>
       <h1>{job ? job.title : 'Pipeline'}</h1>
       <p className="subtitle">Move candidates through each stage.</p>
+      <PipelineIcon />
 
       {error && <p className="error-msg">{error}</p>}
 
@@ -42,7 +47,7 @@ export default function AdminPipeline() {
                   <div className="name">{c.name}</div>
                   <div>{c.email}</div>
                   {c.resume_url && <div><a href={c.resume_url} target="_blank" rel="noreferrer">Resume</a></div>}
-                  <select value={c.stage} onChange={(e) => moveStage(c.id, e.target.value)}>
+                  <select value={c.stage} onChange={(e) => moveStage(c.id, e.target.value, c.name)}>
                     {STAGES.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>

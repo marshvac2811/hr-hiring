@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../api';
+import { Handshake } from '../illustrations';
+import { useToast } from '../Toast';
 
 export default function JobDetail() {
   const { id } = useParams();
+  const showToast = useToast();
   const [job, setJob] = useState(null);
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -21,6 +24,7 @@ export default function JobDetail() {
     try {
       await api.applyToJob({ job_id: id, ...form });
       setSubmitted(true);
+      showToast('Application submitted!');
     } catch (e) {
       setError(e.message);
     } finally {
@@ -39,7 +43,10 @@ export default function JobDetail() {
 
       <h2>Apply</h2>
       {submitted ? (
-        <p className="card">Thanks — your application has been submitted.</p>
+        <div className="card" style={{ textAlign: 'center' }}>
+          <Handshake />
+          <p style={{ marginTop: 12 }}>Thanks — your application has been submitted.</p>
+        </div>
       ) : (
         <form className="card" onSubmit={handleSubmit}>
           {error && <p className="error-msg">{error}</p>}
