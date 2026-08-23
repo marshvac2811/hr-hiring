@@ -17,9 +17,10 @@ module.exports = async (req, res) => {
       if (!job_id || !name || !email) {
         return res.status(400).json({ error: 'job_id, name, and email are required' });
       }
+      const initialHistory = JSON.stringify([{ stage: 'applied', at: new Date().toISOString(), note: null }]);
       const { rows } = await sql`
-        INSERT INTO candidates (job_id, name, email, resume_url)
-        VALUES (${job_id}, ${name}, ${email}, ${resume_url || null})
+        INSERT INTO candidates (job_id, name, email, resume_url, stage_history)
+        VALUES (${job_id}, ${name}, ${email}, ${resume_url || null}, ${initialHistory})
         RETURNING *
       `;
       return res.status(201).json(rows[0]);

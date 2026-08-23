@@ -40,9 +40,16 @@ async function ensureSchema() {
       resume_url TEXT,
       notes TEXT,
       stage TEXT NOT NULL DEFAULT 'applied',
+      stage_history JSONB NOT NULL DEFAULT '[]',
+      dropped_at_stage TEXT,
+      drop_reason TEXT,
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
   `;
+  // Migrate columns onto tables created before this feature existed
+  await sql`ALTER TABLE candidates ADD COLUMN IF NOT EXISTS stage_history JSONB NOT NULL DEFAULT '[]'`;
+  await sql`ALTER TABLE candidates ADD COLUMN IF NOT EXISTS dropped_at_stage TEXT`;
+  await sql`ALTER TABLE candidates ADD COLUMN IF NOT EXISTS drop_reason TEXT`;
 }
 
 module.exports = { sql, ensureSchema };

@@ -18,16 +18,36 @@ export default function AdminDashboard() {
 
   useEffect(load, []);
 
+  function jobLink(job) {
+    return `${window.location.origin}/jobs/${job.id}`;
+  }
+
+  async function copyLink(job) {
+    const link = jobLink(job);
+    try {
+      await navigator.clipboard.writeText(link);
+      showToast('Link copied!');
+    } catch {
+      window.prompt('Copy this link:', link);
+    }
+  }
+
   async function handleCreate(e) {
     e.preventDefault();
     setSaving(true);
     setError('');
     try {
-      await api.createJob(form);
+      const newJob = await api.createJob(form);
       setForm({ title: '', department: '', description: '' });
       setShowForm(false);
       load();
-      showToast('Job posted!');
+      showToast('Job posted! Copying share link…');
+      try {
+        await navigator.clipboard.writeText(jobLink(newJob));
+        showToast('Share link copied to clipboard');
+      } catch {
+        // clipboard may be unavailable — link is still visible on the job card
+      }
     } catch (e) {
       setError(e.message);
     } finally {
@@ -82,6 +102,9 @@ export default function AdminDashboard() {
             <Link className="btn secondary" to={`/admin/jobs/${job.id}`}>View pipeline</Link>{' '}
             <button className="btn secondary" onClick={() => toggleStatus(job)}>
               {job.status === 'open' ? 'Close job' : 'Reopen job'}
+            </button>{' '}
+            <button className="btn secondary" onClick={() => copyLink(job)}>
+              🔗 Copy share link
             </button>
           </div>
         ))}
