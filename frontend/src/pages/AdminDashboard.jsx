@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
-import { HeroOffice } from '../illustrations';
+import { HeroOffice, ManagerSection } from '../illustrations';
 import { useToast } from '../Toast';
 
 export default function AdminDashboard() {
@@ -65,6 +65,7 @@ export default function AdminDashboard() {
   return (
     <div className="container">
       <HeroOffice />
+      <div style={{ marginTop: 14 }}><ManagerSection /></div>
       <h1 style={{ marginTop: 18 }}>Admin — Jobs</h1>
       <p className="subtitle">Post roles and manage the pipeline.</p>
 

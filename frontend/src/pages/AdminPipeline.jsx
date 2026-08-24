@@ -53,7 +53,23 @@ export default function AdminPipeline() {
                 <div className="candidate-card" key={c.id}>
                   <div className="name">{c.name}</div>
                   <div>{c.email}</div>
-                  {c.resume_url && <div><a href={c.resume_url} target="_blank" rel="noreferrer">Resume</a></div>}
+                  {c.resume_url && <div><a href={c.resume_url} target="_blank" rel="noreferrer">View CV</a></div>}
+                  {c.ats_score !== null && c.ats_score !== undefined && (
+                    <div
+                      style={{
+                        display: 'inline-block',
+                        marginTop: 6,
+                        fontSize: 11,
+                        fontWeight: 700,
+                        padding: '2px 8px',
+                        borderRadius: 999,
+                        background: c.ats_score >= 80 ? '#dcfce7' : '#fee2e2',
+                        color: c.ats_score >= 80 ? '#166534' : '#991b1b',
+                      }}
+                    >
+                      ATS {c.ats_score}%
+                    </div>
+                  )}
 
                   {c.stage === 'rejected' && c.dropped_at_stage && (
                     <div style={{ marginTop: 6, fontSize: 12, color: '#b91c1c' }}>

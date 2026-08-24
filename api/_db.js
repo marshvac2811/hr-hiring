@@ -50,6 +50,7 @@ async function ensureSchema() {
   await sql`ALTER TABLE candidates ADD COLUMN IF NOT EXISTS stage_history JSONB NOT NULL DEFAULT '[]'`;
   await sql`ALTER TABLE candidates ADD COLUMN IF NOT EXISTS dropped_at_stage TEXT`;
   await sql`ALTER TABLE candidates ADD COLUMN IF NOT EXISTS drop_reason TEXT`;
+  await sql`ALTER TABLE candidates ADD COLUMN IF NOT EXISTS ats_score INTEGER`;
 }
 
 module.exports = { sql, ensureSchema };

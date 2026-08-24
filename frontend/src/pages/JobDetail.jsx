@@ -1,8 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../api';
-import { Handshake } from '../illustrations';
+import { Handshake, ManagerInterview } from '../illustrations';
 import { useToast } from '../Toast';
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
 export default function JobDetail() {
   const { id } = useParams();
@@ -10,7 +19,8 @@ export default function JobDetail() {
   const [job, setJob] = useState(null);
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', resume_url: '' });
+  const [form, setForm] = useState({ name: '', email: '' });
+  const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -22,7 +32,12 @@ export default function JobDetail() {
     setSubmitting(true);
     setError('');
     try {
-      await api.applyToJob({ job_id: id, ...form });
+      let payload = { job_id: id, ...form };
+      if (file) {
+        payload.resume_file_base64 = await fileToBase64(file);
+        payload.resume_filename = file.name;
+      }
+      await api.applyToJob(payload);
       setSubmitted(true);
       showToast('Application submitted!');
     } catch (e) {
@@ -37,7 +52,8 @@ export default function JobDetail() {
 
   return (
     <div className="container">
-      <h1>{job.title}</h1>
+      <ManagerInterview />
+      <h1 style={{ marginTop: 18 }}>{job.title}</h1>
       <p className="subtitle">{job.department || 'General'}</p>
       {job.description && <div className="card">{job.description}</div>}
 
@@ -59,8 +75,12 @@ export default function JobDetail() {
             <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
           </div>
           <div className="field">
-            <label>Resume link (Drive, LinkedIn, etc.)</label>
-            <input value={form.resume_url} onChange={(e) => setForm({ ...form, resume_url: e.target.value })} />
+            <label>Upload CV (PDF or Word)</label>
+            <input
+              type="file"
+              accept=".pdf,.doc,.docx"
+              onChange={(e) => setFile(e.target.files[0] || null)}
+            />
           </div>
           <button className="btn" disabled={submitting}>{submitting ? 'Submitting…' : 'Submit application'}</button>
         </form>

@@ -1,6 +1,67 @@
 // Original flat-design HR illustrations (no external/stock images —
 // keeps the app fast, licence-free, and independent of hotlinked assets).
 
+export function ManagerInterview() {
+  return (
+    <svg viewBox="0 0 500 200" width="100%" height="180" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="roomG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#dbeafe" />
+          <stop offset="100%" stopColor="#eff6ff" />
+        </linearGradient>
+      </defs>
+      <rect width="500" height="200" rx="16" fill="url(#roomG)" />
+
+      {/* table */}
+      <rect x="130" y="140" width="240" height="12" rx="4" fill="#cbd5e1" />
+      <rect x="150" y="152" width="8" height="28" fill="#94a3b8" />
+      <rect x="342" y="152" width="8" height="28" fill="#94a3b8" />
+
+      {/* manager (interviewer) - seated, blazer */}
+      <circle cx="180" cy="100" r="26" fill="#fcd34d" />
+      <circle cx="180" cy="90" r="13" fill="#78350f" />
+      <rect x="150" y="112" width="60" height="34" rx="10" fill="#1e3a8a" />
+      <rect x="168" y="112" width="24" height="30" fill="#f1f5f9" />
+      {/* clipboard */}
+      <rect x="158" y="130" width="26" height="18" rx="2" fill="#f8fafc" stroke="#94a3b8" />
+      <line x1="162" y1="135" x2="180" y2="135" stroke="#64748b" strokeWidth="1.4" />
+      <line x1="162" y1="140" x2="176" y2="140" stroke="#64748b" strokeWidth="1.4" />
+
+      {/* candidate - across the table */}
+      <circle cx="320" cy="100" r="26" fill="#93c5fd" />
+      <circle cx="320" cy="90" r="13" fill="#1e293b" />
+      <rect x="290" y="112" width="60" height="34" rx="10" fill="#047857" />
+
+      {/* speech bubble = active conversation */}
+      <path d="M245 55 h50 a8 8 0 0 1 8 8 v14 a8 8 0 0 1 -8 8 h-18 l-8 10 v-10 h-24 a8 8 0 0 1 -8 -8 v-14 a8 8 0 0 1 8 -8 z" fill="#ffffff" stroke="#c7d2fe" />
+      <circle cx="258" cy="70" r="2.4" fill="#818cf8" />
+      <circle cx="270" cy="70" r="2.4" fill="#818cf8" />
+      <circle cx="282" cy="70" r="2.4" fill="#818cf8" />
+
+      {/* window light */}
+      <rect x="20" y="20" width="60" height="90" rx="4" fill="#bfdbfe" opacity="0.5" />
+    </svg>
+  );
+}
+
+export function ManagerSection() {
+  return (
+    <svg viewBox="0 0 400 130" width="100%" height="120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="400" height="130" rx="16" fill="#fdf4ff" />
+      <circle cx="100" cy="60" r="30" fill="#f0abfc" />
+      <circle cx="100" cy="48" r="14" fill="#701a75" />
+      <rect x="68" y="82" width="64" height="36" rx="14" fill="#a21caf" />
+      <rect x="82" y="82" width="8" height="18" fill="#fbcfe8" />
+      {/* badge/tie icon = "manager" */}
+      <rect x="95" y="90" width="10" height="16" rx="2" fill="#facc15" />
+
+      <text x="160" y="55" fontSize="15" fontWeight="700" fill="#701a75" fontFamily="sans-serif">Hiring Managers</text>
+      <text x="160" y="78" fontSize="12" fill="#a21caf" fontFamily="sans-serif">Review candidates &amp; run interviews</text>
+      <text x="160" y="98" fontSize="12" fill="#a21caf" fontFamily="sans-serif">directly from the pipeline board</text>
+    </svg>
+  );
+}
+
 export function HeroOffice() {
   return (
     <svg viewBox="0 0 500 200" width="100%" height="180" xmlns="http://www.w3.org/2000/svg">
