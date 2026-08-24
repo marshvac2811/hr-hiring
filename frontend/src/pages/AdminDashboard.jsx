@@ -22,6 +22,11 @@ export default function AdminDashboard() {
     return `${window.location.origin}/jobs/${job.id}`;
   }
 
+  function shareMessage(job) {
+    const dept = job.department ? ` (${job.department})` : '';
+    return `We're hiring for ${job.title}${dept}! Apply here: ${jobLink(job)}\n\nTakes 2 minutes — just upload your CV and you're done.`;
+  }
+
   async function copyLink(job) {
     const link = jobLink(job);
     try {
@@ -29,6 +34,16 @@ export default function AdminDashboard() {
       showToast('Link copied!');
     } catch {
       window.prompt('Copy this link:', link);
+    }
+  }
+
+  async function copyShareMessage(job) {
+    const message = shareMessage(job);
+    try {
+      await navigator.clipboard.writeText(message);
+      showToast('Share message copied!');
+    } catch {
+      window.prompt('Copy this message:', message);
     }
   }
 
@@ -41,10 +56,10 @@ export default function AdminDashboard() {
       setForm({ title: '', department: '', description: '' });
       setShowForm(false);
       load();
-      showToast('Job posted! Copying share link…');
+      showToast('Job posted! Copying share message…');
       try {
-        await navigator.clipboard.writeText(jobLink(newJob));
-        showToast('Share link copied to clipboard');
+        await navigator.clipboard.writeText(shareMessage(newJob));
+        showToast('Share message copied to clipboard');
       } catch {
         // clipboard may be unavailable — link is still visible on the job card
       }
@@ -106,6 +121,9 @@ export default function AdminDashboard() {
             </button>{' '}
             <button className="btn secondary" onClick={() => copyLink(job)}>
               🔗 Copy share link
+            </button>{' '}
+            <button className="btn secondary" onClick={() => copyShareMessage(job)}>
+              📋 Copy share message
             </button>
           </div>
         ))}
